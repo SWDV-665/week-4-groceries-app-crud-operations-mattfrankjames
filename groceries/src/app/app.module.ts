@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
@@ -12,7 +13,7 @@ import { GroceriesServiceService } from './providers/groceries-service.service';
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, GroceriesServiceService],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, GroceriesServiceService, SocialSharing],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

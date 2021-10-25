@@ -3,6 +3,7 @@ import { ToastController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { GroceriesServiceService } from '../providers/groceries-service.service';
 import { InputDialogService } from '../providers/input-dialog.service';
+import { SocialSharing } from '@ionic-native/social-sharing/ngx';
 @Component({
   selector: 'app-tab1',
   templateUrl: 'tab1.page.html',
@@ -11,7 +12,7 @@ import { InputDialogService } from '../providers/input-dialog.service';
 export class Tab1Page {
   title = "Grocery";
 
-  constructor(public toastController: ToastController, public alertController: AlertController, public dataService: GroceriesServiceService, public inputDialogService: InputDialogService) { }
+  constructor(public toastController: ToastController, public alertController: AlertController, public dataService: GroceriesServiceService, public inputDialogService: InputDialogService, public socialSharing: SocialSharing) { }
   loadItems() {
     return this.dataService.getItems();
   }
@@ -22,6 +23,21 @@ export class Tab1Page {
     });
     toast.present();
     this.dataService.remvoveItem(index);
+  }
+  async shareItem(item, index) {
+    const toast = await this.toastController.create({
+      message: 'Sharing Item - ' + index + " ...",
+      duration: 2000
+    });
+    toast.present();
+    let message = `Grocery Item - Name: ${item.name} - Quantity: ${item.quantity}`;
+    let subject = `Shared via Groceries app`;
+
+    this.socialSharing.share(message, subject).then(() => {
+      console.log('Shared successfully');
+    }).catch((error) => {
+      console.error(`Error when sharing - ${error}.`);
+    });
   }
   async editItem(item, index) {
     const toast = await this.toastController.create({
